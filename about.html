@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Zee</title>
+</head>
+<style>
+    * { 
+        box-sizing: border-box;
+     }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #222, #000);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #f6f9f5;
+    overflow-x: hidden;
+  }
+  .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #121212;
+  padding: 1em 2em;
+  color: #ededed;
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-brand h1 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #88d55e;
+}
+
+.navbar-brand span {
+  font-size: 0.9em;
+  color: #aaa;
+  margin-top: 0.2em;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #ededed;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+  color: #2ecc71;
+}
+  .hero {
+    padding: 6em 4% 4em;
+    max-width: 800px;
+  }
+ 
+  .badge {
+    color: #3ebc70;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+ 
+  .hero h2 {
+    margin: 0.3em 0 0;
+    font-size: 3.2em;
+    line-height: 1.1;
+    font-weight: 800;
+    color: #f6f9f5;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+    animation-delay: 0.15s;
+  }
+ 
+  .hero h2.accent {
+    color: #ba0280;
+    animation-delay: 0.3s;
+  }
+ 
+  .hero p {
+    margin-top: 1em;
+    font-size: 1.1em;
+    color: #aaa;
+    max-width: 480px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+    animation-delay: 0.45s;
+  }
+ 
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: 1.8em;
+    padding: 0.9em 1.6em;
+    background: #2ecc71;
+    color: #0a0a12;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+    animation-delay: 0.6s;
+    transition: transform 0.2s, background 0.2s;
+  }
+ 
+  .cta:hover {
+    background: #88d55e;
+    transform: translateX(4px);
+  }
+ 
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .features {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 3.5em 4% 4em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3em;
+  }
+ 
+  .feature {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+ 
+  .feature:nth-child(1) { animation-delay: 0.1s; }
+  .feature:nth-child(2) { animation-delay: 0.25s; }
+  .feature:nth-child(3) { animation-delay: 0.4s; }
+ 
+  .feature .line {
+    height: 2px;
+    background: #2ecc71;
+    margin-bottom: 1.2em;
+  }
+ 
+  .feature .num {
+    color: #ba0280;
+    font-family: monospace;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+ 
+  .feature h3 {
+    margin: 0.4em 0 0.4em;
+    font-size: 1.4em;
+    color: #f6f9f5;
+  }
+ 
+  .feature p {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.95em;
+    line-height: 1.5;
+    max-width: 380px;
+    animation: none;
+    opacity: 1;
+  }
+ 
+  .footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 2em 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+ 
+  .footer .logo-text {
+    font-weight: bold;
+    color: #f6f9f5;
+  }
+ 
+  .footer .logo-text span {
+    color: #ba0280;
+  }
+ 
+  .footer .tagline {
+    color: #666;
+    font-family: monospace;
+    font-size: 0.85em;
+  }
+ 
+  .footer .copy {
+    color: #666;
+    font-size: 0.85em;
+  }
+ 
+</style>
+<body>
+    <div class="navbar" id="navBar">
+        <div class="logo">
+            <h1>Zee-Job portal</h1>
+        </div>
+        <ul>
+            <li><a href="index.html">Find Job</a></li>
+            <li><a href="about.html">Why Zee</a></li>
+            <li><a href="admin.html">Admin desk</a></li>
+            <li id="authAreaItem"><span id="authArea"></span></li>
+        </ul>
+    </div>
+
+<div class="hero">
+    <div class="badge">The Zee Difference</div>
+    <h2>Good work deserves</h2>
+    <h2 class="accent">a good beginning.</h2>
+    <p>Zee is a calmer, more human way to find the teams and opportunities where you can do your best work.</p>
+    <a href="index.html" class="cta">Explore open roles →</a>
+    <p id="liveCount" style="margin-top:1em; font-size:0.9em; color:#3ebc70; opacity:0;"></p>
+  </div>
+
+   <div class="features">
+    <div class="feature">
+      <div class="line"></div>
+      <div class="num">01</div>
+      <h3>Purpose over noise</h3>
+      <p>Every role is here because the team is building something worth your time.</p>
+    </div>
+    <div class="feature">
+      <div class="line"></div>
+      <div class="num">02</div>
+      <h3>People first</h3>
+      <p>Meet organizations that care about how the work gets done, not only what ships.</p>
+    </div>
+    <div class="feature">
+      <div class="line"></div>
+      <div class="num">03</div>
+      <h3>Room to grow</h3>
+      <p>Find your next stretch, supported by people who want to see you succeed.</p>
+    </div>
+  </div>
+ 
+  <div class="footer">
+    <div class="logo-text">zee<span>.</span></div>
+    <div class="tagline">Better work starts with a better match.</div>
+    <div class="copy">© 2026 Zee-Job portal</div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

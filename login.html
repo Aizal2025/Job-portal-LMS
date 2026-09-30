@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Zee Job Portal</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #222, #000);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #f6f9f5;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #121212;
+    padding: 1em 2em;
+    color: #ededed;
+  }
+
+  .navbar h1 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #88d55e;
+  }
+
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar ul li a {
+    text-decoration: none;
+    color: #ededed;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .navbar ul li a:hover {
+    color: #2ecc71;
+  }
+
+  .auth-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 72px);
+    padding: 2em 1em;
+  }
+
+  .auth-box {
+    width: 100%;
+    max-width: 420px;
+    background: #16161e;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 2.2em;
+  }
+
+  .auth-box > h2 {
+    margin: 0 0 1.4em;
+    font-size: 1.4em;
+    color: #f6f9f5;
+    text-align: center;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0.8em;
+    margin-bottom: 1.6em;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 0.7em;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: #ededed;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95em;
+  }
+
+  .tab-btn.active {
+    background: #2ecc71;
+    color: #0a0a12;
+    border-color: #2ecc71;
+  }
+
+  .form-group {
+    margin-bottom: 1em;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.4em;
+    font-size: 0.85em;
+    color: #aaa;
+  }
+
+  .form-group input {
+    width: 100%;
+    background: #0e0e14;
+    color: #f6f9f5;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 0.7em 0.9em;
+    font-size: 1em;
+    font-family: inherit;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: #2ecc71;
+  }
+
+  .auth-submit {
+    width: 100%;
+    background: #2ecc71;
+    color: #0a0a12;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8em;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 0.4em;
+    transition: background 0.2s;
+  }
+
+  .auth-submit:hover {
+    background: #88d55e;
+  }
+
+  .auth-msg {
+    margin-top: 1.1em;
+    font-size: 0.9em;
+    text-align: center;
+    min-height: 1.2em;
+  }
+
+  .auth-msg.error { color: #ff6b6b; }
+  .auth-msg.success { color: #3ebc70; }
+
+  .hint {
+    margin-top: 1.4em;
+    font-size: 0.78em;
+    color: #666;
+    text-align: center;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+  <div class="navbar" id="navBar">
+    <div class="logo">
+      <h1>Zee-Job portal</h1>
+    </div>
+    <ul>
+      <li><a href="index.html">Find Job</a></li>
+      <li><a href="about.html">Why Zee</a></li>
+      <li><a href="admin.html">Admin desk</a></li>
+    </ul>
+  </div>
+
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <h2>Welcome to Zee</h2>
+
+      <div class="tabs">
+        <button class="tab-btn active" id="tabLogin" type="button">Login</button>
+        <button class="tab-btn" id="tabSignup" type="button">Sign up</button>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="auth-submit">Log in</button>
+      </form>
+
+      <form id="signupForm" style="display:none;">
+        <div class="form-group">
+          <label for="suName">Full name</label>
+          <input type="text" id="suName" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="suEmail">Email</label>
+          <input type="email" id="suEmail" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="suPassword">Password</label>
+          <input type="password" id="suPassword" required minlength="6" autocomplete="new-password">
+        </div>
+        <button type="submit" class="auth-submit">Create candidate account</button>
+      </form>
+
+      <div id="authMsg" class="auth-msg"></div>
+
+      <div class="hint">
+        Signing up creates a <strong>candidate</strong> account, for applying to roles.<br>
+        Admin desk uses a separate account provided by the site owner.
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

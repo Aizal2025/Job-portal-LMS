@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Senior Product Designer",
+    "company": "Zee Studio",
+    "location": "New York, NY",
+    "type": "Full-time",
+    "tags": ["Design"],
+    "salary": "$90k – $120k",
+    "posted": "2 days ago"
+  },
+  {
+    "id": 2,
+    "title": "Frontend Engineer",
+    "company": "Northstar Labs",
+    "location": "Remote — Americas",
+    "type": "Full-time",
+    "tags": ["Engineering", "Remote"],
+    "salary": "$100k – $130k",
+    "posted": "3 days ago"
+  },
+  {
+    "id": 3,
+    "title": "Growth Marketing Manager",
+    "company": "Lumen Health",
+    "location": "Austin, TX",
+    "type": "Full-time",
+    "tags": ["Marketing"],
+    "salary": "$80k – $105k",
+    "posted": "1 week ago"
+  },
+  {
+    "id": 4,
+    "title": "Operations Coordinator",
+    "company": "Civic House",
+    "location": "Chicago, IL",
+    "type": "Full-time",
+    "tags": ["Operations"],
+    "salary": "$55k – $70k",
+    "posted": "1 week ago"
+  }
+]

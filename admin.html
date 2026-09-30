@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Desk - Zee Job Portal</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #222, #000);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #f6f9f5;
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5em 4%;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #2ecc71;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #0a0a12;
+  }
+
+  .logo h1 {
+    margin: 0;
+    font-size: 1.3em;
+    color: #88d55e;
+  }
+
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar ul li a {
+    text-decoration: none;
+    color: #ededed;
+    font-weight: 500;
+    transition: color 0.3s;
+    padding-bottom: 0.4em;
+  }
+
+  .navbar ul li a:hover {
+    color: #2ecc71;
+  }
+
+  .navbar ul li a.active {
+    color: #fff;
+    font-weight: bold;
+    border-bottom: 2px solid #2ecc71;
+  }
+
+  .admin-select {
+    background: #16161e;
+    color: #f6f9f5;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 0.6em 1em;
+    font-weight: 600;
+  }
+
+  .hero {
+    padding: 5em 4% 2.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2em;
+  }
+
+  .hero-text { max-width: 640px; }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: #3ebc70;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .hero-text h2 {
+    margin: 0.3em 0 0;
+    font-size: 3em;
+    line-height: 1.1;
+    font-weight: 800;
+    color: #f6f9f5;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+    animation-delay: 0.15s;
+  }
+
+  .hero-text h2.accent {
+    color: #ba0280;
+    animation-delay: 0.3s;
+  }
+
+  .hero-text p {
+    margin-top: 1em;
+    font-size: 1.05em;
+    color: #aaa;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+    animation-delay: 0.45s;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.9em 1.6em;
+    background: #6c63f5;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+    animation-delay: 0.6s;
+    transition: transform 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .cta:hover {
+    background: #8078ff;
+    transform: translateX(4px);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: 0 4%;
+  }
+
+  .stats {
+    padding: 2.5em 4% 4em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5em;
+  }
+
+  .stat {
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.02);
+    border-radius: 10px;
+    padding: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .stat:nth-child(1) { animation-delay: 0.1s; }
+  .stat:nth-child(2) { animation-delay: 0.2s; }
+  .stat:nth-child(3) { animation-delay: 0.3s; }
+
+  .stat .label {
+    color: #aaa;
+    font-family: monospace;
+    font-size: 0.95em;
+  }
+
+  .stat .value {
+    color: #2ecc71;
+    font-weight: 800;
+    font-size: 2em;
+  }
+
+  .section {
+    padding: 0 4% 3em;
+  }
+
+  .section h2 {
+    margin: 0 0 1em;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #f6f9f5;
+  }
+
+  .section .eyebrow {
+    color: #3ebc70;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    margin-bottom: 0.4em;
+  }
+
+  .role-list {
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .role-row {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 1.2em 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .role-row:nth-child(1) { animation-delay: 0.1s; }
+  .role-row:nth-child(2) { animation-delay: 0.2s; }
+  .role-row:nth-child(3) { animation-delay: 0.3s; }
+  .role-row:nth-child(4) { animation-delay: 0.4s; }
+
+  .role-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border: 1px solid #2ecc71;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2ecc71;
+    font-size: 1.2em;
+  }
+
+  .role-info { flex: 1; }
+
+  .role-info .title {
+    font-weight: 700;
+    color: #f6f9f5;
+  }
+
+  .role-info .meta {
+    color: #888;
+    font-size: 0.9em;
+    margin-top: 0.2em;
+  }
+
+  .role-actions {
+    display: flex;
+    gap: 0.6em;
+  }
+
+  .role-actions button {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: #ededed;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .role-actions button:hover {
+    border-color: #2ecc71;
+    color: #2ecc71;
+  }
+
+  .empty-box {
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8em;
+    color: #666;
+  }
+
+  .footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 2em 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+
+  .footer .logo-text {
+    font-weight: bold;
+    color: #f6f9f5;
+  }
+
+  .footer .logo-text span {
+    color: #ba0280;
+  }
+
+  .footer .tagline {
+    color: #666;
+    font-family: monospace;
+    font-size: 0.85em;
+  }
+
+  .footer .copy {
+    color: #666;
+    font-size: 0.85em;
+  }
+
+  /* ---------------- Add / Edit role modal ---------------- */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5em;
+    z-index: 50;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  .modal-box {
+    width: 100%;
+    max-width: 480px;
+    background: #16161e;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 2em;
+  }
+
+  .modal-box h2 {
+    margin: 0 0 1.2em;
+    font-size: 1.4em;
+    color: #f6f9f5;
+  }
+
+  .form-group {
+    margin-bottom: 1em;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.4em;
+    font-size: 0.85em;
+    color: #aaa;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    background: #0e0e14;
+    color: #f6f9f5;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 0.7em 0.9em;
+    font-size: 1em;
+    font-family: inherit;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #2ecc71;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 1em;
+  }
+
+  .form-row .form-group {
+    flex: 1;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8em;
+    margin-top: 1.6em;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: #ededed;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 0.7em 1.4em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .btn-primary {
+    background: #2ecc71;
+    color: #0a0a12;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1.4em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: #88d55e;
+  }
+</style>
+</head>
+<body>
+
+  <div class="navbar" id="navBar">
+    <div class="logo">
+      <div class="logo-icon">Z</div>
+      <h1>Zee-Job portal</h1>
+    </div>
+    <ul>
+      <li><a href="index.html">Find Job</a></li>
+      <li><a href="about.html">Why Zee</a></li>
+      <li><a href="admin.html" class="active">Admin desk</a></li>
+      <li id="authAreaItem"><span id="authArea"></span></li>
+    </ul>
+  </div>
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="badge">🛡 Admin Desk</div>
+      <h2>Keep great work</h2>
+      <h2 class="accent">moving forward.</h2>
+      <p>Manage your open roles and see who's ready to make an impact.</p>
+    </div>
+    <a href="#" class="cta" id="addRoleBtn">+ Add a role</a>
+  </div>
+
+  <hr>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="label">Open roles</span>
+      <span class="value" id="statOpenRoles">4</span>
+    </div>
+    <div class="stat">
+      <span class="label">Applications</span>
+      <span class="value" id="statApplications">0</span>
+    </div>
+    <div class="stat">
+      <span class="label">New to review</span>
+      <span class="value">0</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Open roles</h2>
+    <div class="role-list" id="roleList">
+      <div class="role-row">
+        <div class="role-icon">🏢</div>
+        <div class="role-info">
+          <div class="title">Senior Product Designer</div>
+          <div class="meta">Zee Studio · New York, NY</div>
+        </div>
+        <div class="role-actions">
+          <button title="Edit">✎</button>
+          <button title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="role-row">
+        <div class="role-icon">🏢</div>
+        <div class="role-info">
+          <div class="title">Frontend Engineer</div>
+          <div class="meta">Northstar Labs · Remote — Americas</div>
+        </div>
+        <div class="role-actions">
+          <button title="Edit">✎</button>
+          <button title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="role-row">
+        <div class="role-icon">🏢</div>
+        <div class="role-info">
+          <div class="title">Growth Marketing Manager</div>
+          <div class="meta">Lumen Health · Austin, TX</div>
+        </div>
+        <div class="role-actions">
+          <button title="Edit">✎</button>
+          <button title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="role-row">
+        <div class="role-icon">🏢</div>
+        <div class="role-info">
+          <div class="title">Operations Coordinator</div>
+          <div class="meta">Civic House · Chicago, IL</div>
+        </div>
+        <div class="role-actions">
+          <button title="Edit">✎</button>
+          <button title="Delete">🗑</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">People</div>
+    <h2>Recent applications</h2>
+    <div id="applicationsList">
+      <div class="empty-box">
+        <span style="font-size:1.6em;">📄</span>
+        <span>No applications yet.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="logo-text">zee<span>.</span></div>
+    <div class="tagline">Better work starts with a better match.</div>
+    <div class="copy">© 2026 Zee-Job portal</div>
+  </div>
+
+  <!-- Add / Edit role modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <h2 id="modalTitle">Add a role</h2>
+      <form id="roleForm">
+        <input type="hidden" id="roleId">
+
+        <div class="form-group">
+          <label for="fTitle">Role title</label>
+          <input type="text" id="fTitle" required placeholder="e.g. Backend Engineer">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fCompany">Company</label>
+            <input type="text" id="fCompany" required placeholder="e.g. Zee Studio">
+          </div>
+          <div class="form-group">
+            <label for="fLocation">Location</label>
+            <input type="text" id="fLocation" required placeholder="e.g. Remote">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fType">Job type</label>
+            <select id="fType">
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Contract</option>
+              <option>Internship</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fSalary">Salary</label>
+            <input type="text" id="fSalary" required placeholder="e.g. $90k – $120k">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fTags">Tags (comma-separated)</label>
+          <input type="text" id="fTags" placeholder="e.g. Design, Remote">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Save role</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
