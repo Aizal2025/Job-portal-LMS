@@ -4,13 +4,14 @@ A full-stack job listing portal built for the major-project
 requirement: **HTML, CSS, JavaScript, backend, database, full-stack,
 user roles, listings/applications, deployment.**
 
-Data is stored in local JSON files on the server (`data/`) instead of
-the browser's localStorage — so it's shared across every browser/device
-that opens the site, and survives a page refresh or a server restart.
+Data is stored in **MongoDB** (a cloud database) instead of the
+browser's localStorage or local files — so it's shared across every
+browser/device that opens the site, and stays safe even when the
+server restarts or gets redeployed.
 
 ## What it does
 
-- **Find Job** — browse open roles, search by title/company/tag
+- **Find Job** — browse open roles
 - **Candidate accounts** — sign up, log in, apply to a role (one-click,
   duplicate applies are blocked)
 - **Admin account** — log in, add/edit/delete listings, see everyone
@@ -24,40 +25,70 @@ email:    admin@zee.com
 password: admin123
 ```
 
-This is seeded automatically the first time the server runs. Change
-it (or add a real admin-management flow) before deploying anywhere
-public.
+This is seeded automatically the first time the server connects to
+your database. Change it before sharing the project publicly.
 
 ## Project structure
 
 ```
 zee-job-lms/
-├── server.js            → Express server, REST API, auth, roles
+├── server.js             → Express server, REST API, auth, roles
 ├── package.json
+├── .env.example            → copy this to .env and fill in your own values
+├── models/
+│   ├── Job.js                → Mongoose schema for job listings
+│   ├── User.js                 → Mongoose schema for accounts
+│   └── Application.js            → Mongoose schema for applications
 ├── data/
-│   ├── jobs.json          → job listings ("database")
-│   ├── users.json          → accounts (candidate + admin), auto-created
-│   └── applications.json    → who applied to what, auto-created
+│   └── jobs.json                 → old starter data, kept only as a backup/reference
 └── public/
-    ├── index.html         → Find Job page (search + apply)
+    ├── index.html         → Find Job page
     ├── about.html          → Why Zee page
     ├── admin.html           → Admin Desk (manage roles, view applications)
     ├── login.html            → Login / candidate sign-up
     └── script.js              → frontend, talks to the API via fetch()
 ```
 
-## How to run
+## Step 1 — Create a free MongoDB Atlas database
 
-```bash
-npm install
-npm start
-```
+1. Go to [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas) and sign up (free).
+2. Create a new **free (M0) cluster** — any cloud provider/region is fine.
+3. Under **Database Access**, create a database user with a username and password (save these).
+4. Under **Network Access**, click **Add IP Address** → **Allow Access from Anywhere** (`0.0.0.0/0`). This is needed so Render can connect.
+5. Click **Connect** on your cluster → **Drivers** → copy the connection string. It looks like:
+   ```
+   mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/
+   ```
+6. Replace `<username>` and `<password>` with the database user you made, and add a database name at the end, e.g.:
+   ```
+   mongodb+srv://ziya:mypassword@cluster0.xxxxx.mongodb.net/zee-job-lms
+   ```
 
-Then open **http://localhost:3000**.
+## Step 2 — Run it locally first (test before deploying)
 
-- Find Job: http://localhost:3000/index.html
-- Login / Sign up: http://localhost:3000/login.html
-- Admin Desk: http://localhost:3000/admin.html (log in as admin first)
+1. Copy `.env.example` to a new file named `.env`.
+2. Paste your real connection string as `MONGODB_URI` in `.env`.
+3. Then:
+   ```bash
+   npm install
+   npm start
+   ```
+4. You should see in the terminal:
+   ```
+   Connected to MongoDB
+   Seeded default admin login -> admin@zee.com / admin123
+   Zee Job LMS server running at http://localhost:3000
+   ```
+5. Open `http://localhost:3000/login.html` and test signup/login/apply — exactly like before, but now check your MongoDB Atlas dashboard (**Browse Collections**) and you'll see the actual data sitting there.
+
+## Step 3 — Deploy on Render with the database connected
+
+1. Push this project to GitHub (`.env` will NOT be pushed — it's in `.gitignore`, which is correct, since it has your password).
+2. On Render, open your Web Service → **Environment** tab.
+3. Add two environment variables:
+   - `MONGODB_URI` → your real connection string from Step 1
+   - `SESSION_SECRET` → any random text
+4. Save, and Render will redeploy automatically. Check the **Logs** tab for the same "Connected to MongoDB" message.
 
 ## API reference
 
@@ -76,16 +107,7 @@ Then open **http://localhost:3000**.
 | GET    | /api/applications        | Admin only         | List every application        |
 | GET    | /api/applications/mine   | Candidate only     | List the caller's own applications |
 
-## Deployment
+## Notes
 
-This is a Node app (not a static site), so it needs a Node host —
-e.g. Render, Railway, Replit, or a college server with Node
-installed. Steps:
-
-1. Push this folder to a Git repo (or upload it directly on the host).
-2. Set the `SESSION_SECRET` environment variable to a random string
-   (the code falls back to a demo secret if you don't).
-3. Run `npm install` then `npm start` — most platforms detect the
-   `start` script automatically.
-4. Put the live URL in your project report.
-
+- Login sessions are still stored in server memory, so logging in resets if the server restarts. The job/user/application data does **not** reset anymore — that's now safely in MongoDB.
+- `data/jobs.json` is no longer read by the app; it's kept only as a backup of the original starter data.
